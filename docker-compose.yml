@@ -6,4 +6,4 @@ services:
     ports:
        - "8888:8888"
     environment:
-       EUREKASERVER_URI: "http://ip-172-31-21-37.us-west-2.compute.internal:8761/eureka/"
+       EUREKASERVER_URI: "http://ip-172-31-0-104.us-west-2.compute.internal:8761/eureka/"
