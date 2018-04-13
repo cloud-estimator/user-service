@@ -7,4 +7,3 @@ services:
        - "8888:8888"
     environment:
        - EUREKASERVER_URI: "http://ip-172-31-6-126.us-west-2.compute.internal:8761/eureka/"
-       - SPRING_PROFILES_ACTIVE: "cloud"
