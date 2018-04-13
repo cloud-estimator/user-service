@@ -5,7 +5,6 @@ import cloud.estimator.user.config.Constants;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.annotation.CreatedBy;
@@ -13,6 +12,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 // import org.hibernate.annotations.Cache;
 // import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
@@ -36,10 +37,11 @@ import java.time.Instant;
 @EntityListeners(AuditingEntityListener.class)
 public class User implements Serializable {
 
+  private static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
+
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-  @SequenceGenerator(name = "sequenceGenerator")
-  private Long id;
+  @NotNull
+  private String id;
 
   @NotNull
   @Pattern(regexp = Constants.LOGIN_REGEX)
@@ -115,10 +117,31 @@ public class User implements Serializable {
   @Builder.Default
   private Instant lastModifiedDate = Instant.now();
 
+  /*
+   * Below code lifted from following:
+   * https://stackoverflow.com/questions/42379899/use-custom-setter-in-lomboks-builder
+   */
+
+  public static class UserBuilder {
+    public UserBuilder password(String password) {
+      this.password = _encodePassword(password);
+      return this;
+    }
+
+    public UserBuilder login(String login) {
+      this.login = _lowerCaseLogin(login);
+      return this;
+    }
+  }
+
+  // encode the password before saving it in database
+  private static String _encodePassword(String password) {
+    return ENCODER.encode(password);
+  }
 
   // Lowercase the login before saving it in database
-  public void setLogin(String login) {
-    this.login = StringUtils.lowerCase(login, Locale.ENGLISH);
+  private static String _lowerCaseLogin(String login) {
+    return StringUtils.lowerCase(login, Locale.ENGLISH);
   }
 
 

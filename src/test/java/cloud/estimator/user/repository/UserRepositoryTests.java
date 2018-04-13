@@ -3,6 +3,8 @@ package cloud.estimator.user.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 import java.util.Optional;
+import java.util.UUID;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,20 +31,24 @@ public class UserRepositoryTests {
   public void testFindByLastName() {
 
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    String encryptedPassword = passwordEncoder.encode("testing123");
 
-    User user = User.builder().login("ddharna").password(encryptedPassword).firstName("Dharminder")
-        .lastName("Dharna").email("dharminder@estimator.cloud").build();
+    User user =
+        User.builder().id(UUID.randomUUID().toString()).login("DDHARNA").password("testing123")
+            .firstName("Dharminder").lastName("Dharna").email("dharminder@estimator.cloud").build();
     user.setCreatedBy("admin");
     entityManager.persist(user);
 
     Optional<User> findByLastName = users.findOneByEmailIgnoreCase(user.getEmail());
-    log.info("\n\n\n-----------------");
-    log.info(findByLastName.get().toString());
-    log.info("\n\n\n-----------------");
     assertTrue(findByLastName.isPresent());
-    assertThat(passwordEncoder.matches("testing123", findByLastName.get().getPassword()))
-        .isTrue();
+    User foundUser = findByLastName.get();
+
+    log.info("\n\n\n-----------------");
+    log.info(foundUser.toString());
+    log.info("\n\n\n-----------------");
+
+    assertThat(passwordEncoder.matches("testing123", foundUser.getPassword())).isTrue();
+
+    assertTrue(StringUtils.isAllLowerCase(foundUser.getLogin()));
 
 
 

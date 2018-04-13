@@ -1,14 +1,49 @@
+# ===================================================================
+# Spring Boot configuration.
+#
+# This configuration will be overridden by the Spring profile you use,
+# for example application-dev.yml if you use the "dev" profile.
+#
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
 server:
   port: 8081
   
 spring:
+  # Standard Spring Boot properties
   application.name: user-service
   output.ansi.enabled: always # Show colored output
+  # JPA Properties
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+ 
+  datasource:
+    platform: h2
+
+management:
+  context-path: /management
+  security:
+    enabled: false
+  
   
 eureka:
   client:
     enabled: false
   instance:
+    health-check-url-path: ${management.context-path}/health
+    metadata-map:
+      management.context-path: ${management.context-path}
     prefer-ip-address: true
+    
+
+
 
   
