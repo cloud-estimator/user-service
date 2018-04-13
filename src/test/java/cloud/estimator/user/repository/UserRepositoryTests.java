@@ -1,5 +1,6 @@
 package cloud.estimator.user.repository;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 import java.util.Optional;
 import org.junit.Test;
@@ -23,12 +24,12 @@ public class UserRepositoryTests {
 
   @Autowired
   private UserRepository users;
-  
+
   @Test
   public void testFindByLastName() {
-    
-    PasswordEncoder encoder = new BCryptPasswordEncoder();
-    String encryptedPassword = encoder.encode("testing123");
+
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    String encryptedPassword = passwordEncoder.encode("testing123");
 
     User user = User.builder().login("ddharna").password(encryptedPassword).firstName("Dharminder")
         .lastName("Dharna").email("dharminder@estimator.cloud").build();
@@ -40,9 +41,10 @@ public class UserRepositoryTests {
     log.info(findByLastName.get().toString());
     log.info("\n\n\n-----------------");
     assertTrue(findByLastName.isPresent());
-    
-     
-    
+    assertThat(passwordEncoder.matches("testing123", findByLastName.get().getPassword()))
+        .isTrue();
+
+
 
   }
 
