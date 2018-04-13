@@ -5,3 +5,10 @@ spring:
   application.name: user-service
   output.ansi.enabled: always # Show colored output
   
+eureka:
+  client:
+    enabled: false
+  instance:
+    prefer-ip-address: true
+
+  
