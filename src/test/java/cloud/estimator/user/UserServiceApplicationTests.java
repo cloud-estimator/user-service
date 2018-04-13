@@ -1,4 +1,4 @@
-package cloud.estimator.userservice;
+package cloud.estimator.user;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
