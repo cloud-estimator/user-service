@@ -9,3 +9,4 @@ services:
        EUREKASERVER_URI:  "http://ip-172-31-5-46.us-west-2.compute.internal:8761/eureka/"
        CONFIGSERVER_URI:  "http://ip-172-31-5-197.us-west-2.compute.internal:8888"
        PROFILE:           "prod"
+       ENCRYPT_KEY:       "f3831f8cc338"
