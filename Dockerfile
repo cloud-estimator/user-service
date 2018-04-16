@@ -8,4 +8,4 @@ RUN cd /tmp/ && \
     rm jce_policy-8.zip && \
     yes |cp -v /tmp/UnlimitedJCEPolicyJDK8/*.jar /usr/lib/jvm/java-1.8-openjdk/jre/lib/security/
 ADD ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-Deureka.client.serviceUrl.defaultZone=${EUREKASERVER_URI}","-Dspring.cloud.config.uri=$CONFIGSERVER_URI", "-Dspring.profiles.active=prod", "-jar","/app.jar"]
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-Deureka.client.serviceUrl.defaultZone=${EUREKASERVER_URI}","-Dspring.cloud.config.uri=${CONFIGSERVER_URI}", "-Dspring.profiles.active=${PROFILE}", "-jar","/app.jar"]
