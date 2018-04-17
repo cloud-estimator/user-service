@@ -33,13 +33,13 @@ public class UserRepositoryTests {
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 		User user = User.builder().id(UUID.randomUUID().toString()).login("DDHARNA").password("testing123")
-				.firstName("Dharminder").lastName("Dharna").email("dharminder@estimator.cloud").build();
+				.name("Dharminder Dharna").email("dharminder@estimator.cloud").build();
 		user.setCreatedBy("admin");
 		entityManager.persist(user);
 
-		Optional<User> findByLastName = users.findOneByEmailIgnoreCase(user.getEmail());
-		assertTrue(findByLastName.isPresent());
-		User foundUser = findByLastName.get();
+		Optional<User> findByEmail = users.findOneByEmailIgnoreCase(user.getEmail());
+		assertTrue(findByEmail.isPresent());
+		User foundUser = findByEmail.get();
 
 		log.info("\n\n\n-----------------");
 		log.info(foundUser.toString());
@@ -56,7 +56,7 @@ public class UserRepositoryTests {
 
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-		Optional<User> findById = users.findById("5479ddeb-8e25-429f-8b4a-2b56482979d2");
+		Optional<User> findById = users.findById("4cfe19c1-1208-4d3a-9f51-a99f6565311c");
 		assertTrue(findById.isPresent());
 		User foundUser = findById.get();
 
