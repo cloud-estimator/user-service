@@ -6,7 +6,7 @@ services:
     ports:
        - "8081:8081"
     environment:
-       EUREKASERVER_URI:  "http://internal-cloud-estimator-lb-1078220646.us-west-2.elb.amazonaws.com:8761/eureka/"
-       CONFIGSERVER_URI:  "http://internal-cloud-estimator-lb-1078220646.us-west-2.elb.amazonaws.com:8888"
+       EUREKASERVER_URI:  "http://lb.estimator.cloud.local:8761/eureka/"
+       CONFIGSERVER_URI:  "http://lb.estimator.cloud.local:8888"
        PROFILE:           "prod"
        ENCRYPT_KEY:       "f3831f8cc338"
