@@ -1,7 +1,7 @@
 package cloud.estimator.user.repository;
 
 import cloud.estimator.user.domain.User;
-//import org.springframework.cache.annotation.Cacheable;
+// import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -31,16 +31,14 @@ public interface UserRepository extends JpaRepository<User, String> {
 
   Optional<User> findOneByLogin(String login);
 
-  @EntityGraph(attributePaths = "authorities")
-  Optional<User> findOneWithAuthoritiesById(Long id);
+  @EntityGraph(attributePaths = "accounts")
+  Optional<User> findOneWithAccountsById(Long id);
 
-  @EntityGraph(attributePaths = "authorities")
-  //@Cacheable(cacheNames = USERS_BY_LOGIN_CACHE)
-  Optional<User> findOneWithAuthoritiesByLogin(String login);
+  @EntityGraph(attributePaths = "accounts")
+  Optional<User> findOneWithAccountsByLogin(String login);
 
-  @EntityGraph(attributePaths = "authorities")
-  //@Cacheable(cacheNames = USERS_BY_EMAIL_CACHE)
-  Optional<User> findOneWithAuthoritiesByEmail(String email);
+  @EntityGraph(attributePaths = "accounts")
+  Optional<User> findOneWithAccountsByEmail(String email);
 
   Page<User> findAllByLoginNot(Pageable pageable, String login);
 }

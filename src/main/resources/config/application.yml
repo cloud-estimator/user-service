@@ -42,8 +42,5 @@ eureka:
     metadata-map:
       management.context-path: ${management.context-path}
     prefer-ip-address: true
-    
-
-
 
   

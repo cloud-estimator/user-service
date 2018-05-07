@@ -1,3 +1,11 @@
-create table estimator_user (id varchar(255) not null, activated boolean not null, activation_key varchar(20), created_by varchar(50) not null, created_date timestamp not null, email varchar(100), name varchar(100), image_url varchar(256), lang_key varchar(6), last_modified_by varchar(50), last_modified_date timestamp, last_name varchar(50), login varchar(50) not null, password_hash varchar(60) not null, reset_date timestamp, reset_key varchar(20), primary key (id));
-alter table estimator_user add constraint UK_ob8kqyqqgmefl0aco34akdtpe unique (email);
-alter table estimator_user add constraint UK_ew1hvam8uwaknuaellwhqchhb unique (login);
+create table account (id varchar(255) not null, created_by varchar(50) not null, created_date timestamp not null, last_modified_by varchar(50), last_modified_date timestamp, primary key (id));
+create table authority (name varchar(50) not null, primary key (name));
+create table estimator_user (id varchar(255) not null, activated boolean not null, activation_key varchar(20), created_by varchar(50) not null, created_date timestamp not null, email varchar(100), image_url varchar(256), lang_key varchar(6), last_modified_by varchar(50), last_modified_date timestamp, login varchar(50) not null, name varchar(50), password_hash varchar(100) not null, reset_date timestamp, reset_key varchar(20), primary key (id));
+create table organization (created_by varchar(50) not null, created_date timestamp not null, last_modified_by varchar(50), last_modified_date timestamp, name varchar(100), account_id varchar(255) not null, primary key (account_id));
+create table user_account (account_id varchar(255) not null, user_id varchar(255) not null, authority_name varchar(50), primary key (account_id, user_id));
+alter table estimator_user add constraint UK_t9plk77ssj7jq09c0ybjesvy unique (email);
+alter table estimator_user add constraint UK_8c0bpyaje2dpxkpu669fa3t7k unique (login);
+alter table organization add constraint FKiql7mtdqm6doaeqsy13v9r4p5 foreign key (account_id) references account;
+alter table user_account add constraint FK1pxs5fj6ujqfs13gmfg3o5cwo foreign key (account_id) references account;
+alter table user_account add constraint FKmkl2phjdhpxc7v5kg8vcugs8i foreign key (authority_name) references authority;
+alter table user_account add constraint FKn149afyqbbn12pydu86w9yk9a foreign key (user_id) references estimator_user;
