@@ -10,7 +10,6 @@ import cloud.estimator.user.domain.User;
 import cloud.estimator.user.repository.UserRepository;
 import cloud.estimator.user.service.UserService;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -21,7 +20,6 @@ import java.util.*;
  */
 @RestController
 @RequestMapping("/api")
-@Data
 @RequiredArgsConstructor
 public class AccountResource {
 
