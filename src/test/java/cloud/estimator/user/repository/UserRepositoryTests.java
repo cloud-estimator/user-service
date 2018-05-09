@@ -17,41 +17,39 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserRepositoryTests {
 
+	@Autowired
+	private UserRepository userRepository;
 
-  @Autowired
-  private UserRepository userRepository;
+	@Test
+	public void testFindByLastName() {
 
-  @Test
-  public void testFindByLastName() {
+		Optional<User> findByEmail = userRepository.findOneByLogin("ddharna");
+		assertTrue(findByEmail.isPresent());
+		User foundUser = findByEmail.get();
 
-    Optional<User> findByEmail = userRepository.findOneByLogin("ddharna");
-    assertTrue(findByEmail.isPresent());
-    User foundUser = findByEmail.get();
+		log.info("\n\n\n-----------------");
+		log.info(foundUser.toString());
+		log.info("\n\n\n-----------------");
 
-    log.info("\n\n\n-----------------");
-    log.info(foundUser.toString());
-    log.info("\n\n\n-----------------");
+		assertTrue(StringUtils.isAllLowerCase(foundUser.getLogin()));
 
-    assertTrue(StringUtils.isAllLowerCase(foundUser.getLogin()));
+	}
 
-  }
+	@Test
+	public void testHasAccounts() {
 
+		Optional<User> findByEmail = userRepository.findOneByLogin("ddharna");
+		assertTrue(findByEmail.isPresent());
+		User foundUser = findByEmail.get();
 
-  @Test
-  public void testHasAccounts() {
+		log.info("\n\n\n-----------------");
+		log.info(foundUser.toString());
+		log.info("\n\n\n-----------------");
 
-    Optional<User> findByEmail = userRepository.findOneByLogin("ddharna");
-    assertTrue(findByEmail.isPresent());
-    User foundUser = findByEmail.get();
+		assertTrue(foundUser.getAccounts().size() > 0);
+		assertTrue(
+				foundUser.getAccounts().iterator().next().getAuthority().getName().equals(AuthoritiesConstants.ADMIN));
 
-    log.info("\n\n\n-----------------");
-    log.info(foundUser.toString());
-    log.info("\n\n\n-----------------");
-
-    assertTrue(foundUser.getAccounts().size() > 0);
-    assertTrue(foundUser.getAccounts().iterator().next().getAuthority().getName()
-        .equals(AuthoritiesConstants.ADMIN));
-
-  }
+	}
 
 }

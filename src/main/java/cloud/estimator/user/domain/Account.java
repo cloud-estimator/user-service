@@ -33,66 +33,66 @@ import java.util.HashSet;
 @EntityListeners(AuditingEntityListener.class)
 public class Account implements Serializable {
 
-  @Id
-  @NotNull
-  @GeneratedValue(generator = "system-uuid")
-  @GenericGenerator(name = "system-uuid", strategy = "uuid")
-  @Column(name = "id", updatable = false)
-  private String id;
+	@Id
+	@NotNull
+	@GeneratedValue(generator = "system-uuid")
+	@GenericGenerator(name = "system-uuid", strategy = "uuid")
+	@Column(name = "id", updatable = false)
+	private String id;
 
-  @OneToOne(mappedBy = "account")
-  private Organization organization;
+	@OneToOne(mappedBy = "account")
+	private Organization organization;
 
-  @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
-  @Builder.Default
-  private Set<UserAccount> users = new HashSet<>();
+	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+	@Builder.Default
+	private Set<UserAccount> users = new HashSet<>();
 
-  /**
-   * @param user
-   * @param authority
-   */
-  public void addUser(User user, Authority authority) {
-    UserAccount userAccount = new UserAccount(user, this, authority);
-    users.add(userAccount);
-    user.getAccounts().add(userAccount);
-  }
+	/**
+	 * @param user
+	 * @param authority
+	 */
+	public void addUser(User user, Authority authority) {
+		UserAccount userAccount = new UserAccount(user, this, authority);
+		users.add(userAccount);
+		user.getAccounts().add(userAccount);
+	}
 
-  /**
-   * @param user
-   */
-  public void removeUser(User user) {
-    for (Iterator<UserAccount> iterator = users.iterator(); iterator.hasNext();) {
-      UserAccount userAccount = iterator.next();
+	/**
+	 * @param user
+	 */
+	public void removeUser(User user) {
+		for (Iterator<UserAccount> iterator = users.iterator(); iterator.hasNext();) {
+			UserAccount userAccount = iterator.next();
 
-      if (userAccount.getAccount().equals(this) && userAccount.getUser().equals(user)) {
-        iterator.remove();
-        userAccount.getUser().getAccounts().remove(userAccount);
-        userAccount.setAccount(null);
-        userAccount.setUser(null);
-      }
-    }
-  }
+			if (userAccount.getAccount().equals(this) && userAccount.getUser().equals(user)) {
+				iterator.remove();
+				userAccount.getUser().getAccounts().remove(userAccount);
+				userAccount.setAccount(null);
+				userAccount.setUser(null);
+			}
+		}
+	}
 
-  @CreatedBy
-  @Column(name = "created_by", nullable = false, length = 50, updatable = false)
-  @JsonIgnore
-  private String createdBy;
+	@CreatedBy
+	@Column(name = "created_by", nullable = false, length = 50, updatable = false)
+	@JsonIgnore
+	private String createdBy;
 
-  @CreatedDate
-  @Column(name = "created_date", nullable = false)
-  @JsonIgnore
-  @Builder.Default
-  private Instant createdDate = Instant.now();
+	@CreatedDate
+	@Column(name = "created_date", nullable = false)
+	@JsonIgnore
+	@Builder.Default
+	private Instant createdDate = Instant.now();
 
-  @LastModifiedBy
-  @Column(name = "last_modified_by", length = 50)
-  @JsonIgnore
-  private String lastModifiedBy;
+	@LastModifiedBy
+	@Column(name = "last_modified_by", length = 50)
+	@JsonIgnore
+	private String lastModifiedBy;
 
-  @LastModifiedDate
-  @Column(name = "last_modified_date")
-  @JsonIgnore
-  @Builder.Default
-  private Instant lastModifiedDate = Instant.now();
+	@LastModifiedDate
+	@Column(name = "last_modified_date")
+	@JsonIgnore
+	@Builder.Default
+	private Instant lastModifiedDate = Instant.now();
 
 }

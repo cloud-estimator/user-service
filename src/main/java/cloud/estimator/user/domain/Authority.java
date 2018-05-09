@@ -27,13 +27,13 @@ import java.util.List;
 @Table(name = "authority")
 public class Authority implements Serializable {
 
-  @NotNull
-  @Size(max = 50)
-  @Id
-  @Column(length = 50)
-  private String name;
+	@NotNull
+	@Size(max = 50)
+	@Id
+	@Column(length = 50)
+	private String name;
 
-  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "authority")
-  private List<UserAccount> userAccounts;
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "authority")
+	private List<UserAccount> userAccounts;
 
 }

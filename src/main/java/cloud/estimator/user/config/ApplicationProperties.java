@@ -20,5 +20,4 @@ public class ApplicationProperties {
 	@Value("${signing.key:345345fsdfsf5345}")
 	private String jwtSigningKey;
 
-
 }

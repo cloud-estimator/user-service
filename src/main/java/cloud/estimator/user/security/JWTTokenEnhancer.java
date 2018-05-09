@@ -15,21 +15,20 @@ import java.util.Optional;
 @NoArgsConstructor
 public class JWTTokenEnhancer implements TokenEnhancer {
 
-  @Autowired
-  private UserRepository repository;
+	@Autowired
+	private UserRepository repository;
 
-  @Override
-  public OAuth2AccessToken enhance(OAuth2AccessToken accessToken,
-      OAuth2Authentication authentication) {
-    
-    // fetch the list of accounts this user is allowed to access
-    Optional<User> user = repository.findOneWithAccountsByLogin(authentication.getName());
-    Map<String, Object> additionalInfo = new HashMap<>();
-    String orgId = "1";
+	@Override
+	public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
 
-    additionalInfo.put("organizationId", orgId);
+		// fetch the list of accounts this user is allowed to access
+		Optional<User> user = repository.findOneWithAccountsByLogin(authentication.getName());
+		Map<String, Object> additionalInfo = new HashMap<>();
+		String orgId = "1";
 
-    ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
-    return accessToken;
-  }
+		additionalInfo.put("organizationId", orgId);
+
+		((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
+		return accessToken;
+	}
 }

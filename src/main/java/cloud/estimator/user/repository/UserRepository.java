@@ -17,28 +17,28 @@ import java.time.Instant;
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
 
-  String USERS_BY_LOGIN_CACHE = "usersByLogin";
+	String USERS_BY_LOGIN_CACHE = "usersByLogin";
 
-  String USERS_BY_EMAIL_CACHE = "usersByEmail";
+	String USERS_BY_EMAIL_CACHE = "usersByEmail";
 
-  Optional<User> findOneByActivationKey(String activationKey);
+	Optional<User> findOneByActivationKey(String activationKey);
 
-  List<User> findAllByActivatedIsFalseAndCreatedDateBefore(Instant dateTime);
+	List<User> findAllByActivatedIsFalseAndCreatedDateBefore(Instant dateTime);
 
-  Optional<User> findOneByResetKey(String resetKey);
+	Optional<User> findOneByResetKey(String resetKey);
 
-  Optional<User> findOneByEmailIgnoreCase(String email);
+	Optional<User> findOneByEmailIgnoreCase(String email);
 
-  Optional<User> findOneByLogin(String login);
+	Optional<User> findOneByLogin(String login);
 
-  @EntityGraph(attributePaths = "accounts")
-  Optional<User> findOneWithAccountsById(Long id);
+	@EntityGraph(attributePaths = "accounts")
+	Optional<User> findOneWithAccountsById(Long id);
 
-  @EntityGraph(attributePaths = "accounts")
-  Optional<User> findOneWithAccountsByLogin(String login);
+	@EntityGraph(attributePaths = "accounts")
+	Optional<User> findOneWithAccountsByLogin(String login);
 
-  @EntityGraph(attributePaths = "accounts")
-  Optional<User> findOneWithAccountsByEmail(String email);
+	@EntityGraph(attributePaths = "accounts")
+	Optional<User> findOneWithAccountsByEmail(String email);
 
-  Page<User> findAllByLoginNot(Pageable pageable, String login);
+	Page<User> findAllByLoginNot(Pageable pageable, String login);
 }

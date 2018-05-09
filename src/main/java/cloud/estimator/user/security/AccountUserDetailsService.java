@@ -42,7 +42,6 @@ public class AccountUserDetailsService implements UserDetailsService {
 
 	}
 
-
 	/**
 	 * @param lowercaseLogin
 	 * @param user

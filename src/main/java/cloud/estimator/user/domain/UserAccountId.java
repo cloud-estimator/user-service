@@ -8,16 +8,15 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Embeddable
-@EqualsAndHashCode(of = {"userId", "accountId"})
+@EqualsAndHashCode(of = { "userId", "accountId" })
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserAccountId implements Serializable {
 
-  @Column(name = "user_id")
-  private String userId;
+	@Column(name = "user_id")
+	private String userId;
 
-  @Column(name = "account_id")
-  private String accountId;
-
+	@Column(name = "account_id")
+	private String accountId;
 
 }

@@ -23,27 +23,25 @@ import lombok.Setter;
 @Table(name = "user_account")
 public class UserAccount implements Serializable {
 
-  @EmbeddedId
-  private UserAccountId id;
+	@EmbeddedId
+	private UserAccountId id;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @MapsId("userId")
-  private User user;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@MapsId("userId")
+	private User user;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @MapsId("accountId")
-  private Account account;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@MapsId("accountId")
+	private Account account;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  private Authority authority;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Authority authority;
 
-  public UserAccount(User user, Account account, Authority authority) {
-    this.user = user;
-    this.account = account;
-    this.authority = authority;
-    this.id = new UserAccountId(user.getId(), account.getId());
-  }
-
-
+	public UserAccount(User user, Account account, Authority authority) {
+		this.user = user;
+		this.account = account;
+		this.authority = authority;
+		this.id = new UserAccountId(user.getId(), account.getId());
+	}
 
 }
