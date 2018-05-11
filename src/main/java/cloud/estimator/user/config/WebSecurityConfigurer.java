@@ -49,7 +49,6 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 			.antMatchers("/swagger-ui/index.html")
 			.antMatchers("/test/**")
 			.antMatchers("/h2-console/**");
-			//.antMatchers("/api/register**");
 		// @formatter:on
 	}
 	

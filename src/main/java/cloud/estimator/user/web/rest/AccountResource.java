@@ -4,10 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import cloud.estimator.user.repository.UserRepository;
-import cloud.estimator.user.security.AuthoritiesConstants;
 import cloud.estimator.user.service.UserService;
 import cloud.estimator.user.web.rest.errors.EmailAlreadyUsedException;
 import cloud.estimator.user.web.rest.errors.InvalidPasswordException;
@@ -58,18 +56,11 @@ public class AccountResource {
 		// mailService.sendActivationEmail(user);
 	}
 
-	@GetMapping("/register")
-	@ResponseStatus(HttpStatus.CREATED)
-	public void registerAccount() {
-		throw new InvalidPasswordException();
-
-	}
-
 	@GetMapping("/allow")
 	public void allow() {
 		System.out.println("Reached");
 	}
-	
+
 	@GetMapping("/deny")
 	public void deny() {
 		System.out.println("Reached");
