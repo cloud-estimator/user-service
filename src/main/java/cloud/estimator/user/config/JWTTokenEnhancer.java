@@ -1,10 +1,14 @@
-package cloud.estimator.user.security;
+package cloud.estimator.user.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+import org.springframework.stereotype.Component;
+
 import cloud.estimator.user.domain.User;
 import cloud.estimator.user.repository.UserRepository;
 import lombok.NoArgsConstructor;
@@ -13,6 +17,8 @@ import java.util.Map;
 import java.util.Optional;
 
 @NoArgsConstructor
+@Component
+@Primary
 public class JWTTokenEnhancer implements TokenEnhancer {
 
 	@Autowired

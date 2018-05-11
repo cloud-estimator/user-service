@@ -73,6 +73,7 @@ public class UserResource {
 	 *         user, or with status 404 (Not Found)
 	 */
 	@GetMapping("/users")
+	@PreAuthorize("hasRole('ADMIN_USER')")
 	public ResponseEntity<Void> register() {
 		log.debug("REST request to get Register : {}", "test");
 
@@ -133,7 +134,7 @@ public class UserResource {
 
 	@SuppressWarnings("unused")
 	@GetMapping("/users/invite3/{accountId}")
-	@PreAuthorize("isAuthorizedMember(#accountId + ':" + AuthoritiesConstants.ADMIN + "')")
+	@PreAuthorize("hasAuthority(#accountId + ':" + AuthoritiesConstants.ADMIN + "')")
 	public ResponseEntity<Void> invite3(@PathVariable String accountId) {
 		log.debug("REST request to get Register : {}", "test");
 		Optional<String> jwt = SecurityUtils.getCurrentUserJWT();
@@ -146,7 +147,7 @@ public class UserResource {
 
 	@SuppressWarnings("unused")
 	@GetMapping("/users/invite4/{accountId}")
-	@PreAuthorize("hasAuthority(#accountId + ':" + AuthoritiesConstants.ADMIN + "')")
+	//@PreAuthorize("hasAuthority(#accountId + ':" + AuthoritiesConstants.ADMIN + "')")
 	public ResponseEntity<Void> invite4(@PathVariable String accountId) {
 		log.debug("REST request to get Register : {}", "test");
 		Optional<String> jwt = SecurityUtils.getCurrentUserJWT();

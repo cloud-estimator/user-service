@@ -3,6 +3,8 @@ package cloud.estimator.user.security;
 import org.springframework.security.access.expression.SecurityExpressionRoot;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionOperations;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import cloud.estimator.user.domain.User;
 
@@ -14,6 +16,14 @@ public class CustomMethodSecurityExpressionRoot extends SecurityExpressionRoot
 
 	public CustomMethodSecurityExpressionRoot(Authentication authentication) {
 		super(authentication);
+	}
+	
+	public boolean isAuthorizedMember(String authority) {
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		boolean isAuthorized = auth.getAuthorities().contains(new SimpleGrantedAuthority(authority));
+		return isAuthorized;
+
 	}
 
 	//

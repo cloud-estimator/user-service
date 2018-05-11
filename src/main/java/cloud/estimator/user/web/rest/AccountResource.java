@@ -65,11 +65,14 @@ public class AccountResource {
 
 	}
 
+	@GetMapping("/allow")
+	public void allow() {
+		System.out.println("Reached");
+	}
+	
 	@GetMapping("/deny")
-	@ResponseStatus(HttpStatus.CREATED)
-	@PreAuthorize("hasRole('" + AuthoritiesConstants.ADMIN + "')")
 	public void deny() {
-
+		System.out.println("Reached");
 	}
 
 	private static boolean checkPasswordLength(String password) {
