@@ -1,6 +1,8 @@
 package cloud.estimator.user.repository;
 
 import static org.junit.Assert.*;
+
+import java.util.List;
 import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
@@ -49,6 +51,20 @@ public class UserRepositoryTests {
 		assertTrue(foundUser.getAccounts().size() > 0);
 		assertTrue(
 				foundUser.getAccounts().iterator().next().getAuthority().getName().equals(AuthoritiesConstants.ADMIN));
+
+	}
+
+	@Test
+	public void testFindByAccountId() {
+
+		List<User> findByAccount = userRepository
+				.findAllByAccountsAccountIdEquals("8a8081966337e912016337e93d850001");
+		
+		assertTrue(!findByAccount.isEmpty());
+
+		log.info("\n\n\n-----------------");
+		log.info(findByAccount.toString());
+		log.info("\n\n\n-----------------");
 
 	}
 

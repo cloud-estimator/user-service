@@ -49,7 +49,7 @@ public class AccountResourceTests {
 
 	@Autowired
 	private MockMvc restMvcAuthenticated;
-	
+
 	@Autowired
 	private MockMvc restMvcUnauthenticated;
 
@@ -80,44 +80,56 @@ public class AccountResourceTests {
 		AccountResource accountResource = new AccountResource(userRepository, userService);
 
 		AccountResource accountUserMockResource = new AccountResource(userRepository, mockUserService);
-		
-		this.restMvcAuthenticated = MockMvcBuilders.standaloneSetup(accountResource).setMessageConverters(httpMessageConverters)
+
+		this.restMvcAuthenticated = MockMvcBuilders.standaloneSetup(accountResource)
+				.setMessageConverters(httpMessageConverters)
 				.setControllerAdvice(exceptionTranslator).build();
 
 		this.restUserMockMvc = MockMvcBuilders.standaloneSetup(accountUserMockResource)
 				.setControllerAdvice(exceptionTranslator).build();
 	}
 
-    @Test
-    public void testNonAuthenticatedUserAllow() throws Exception {
-        restUserMockMvc.perform(get("/api/allow")
-            .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(content().string(""));
-    }
-    
-    @Test
-    public void testNonAuthenticatedUserDeny() throws Exception {
-    	restMvcUnauthenticated
-    		.perform(get("/api/deny")
-            .accept(MediaType.APPLICATION_JSON))
-            .andExpect(content().contentType(MediaTypes.PROBLEM))
-            .andExpect(status().isUnauthorized());
-    }
-    
+	@Test
+	public void testNonAuthenticatedUserAllow() throws Exception {
+		restUserMockMvc.perform(get("/api/allow")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(content().string(""));
+	}
+
+	@Test
+	public void testNonAuthenticatedUserDeny() throws Exception {
+		restMvcUnauthenticated
+				.perform(get("/api/deny")
+						.accept(MediaType.APPLICATION_JSON))
+				.andExpect(content().contentType(MediaTypes.PROBLEM))
+				.andExpect(status().isUnauthorized());
+	}
+
 	@Test
 	public void testRegisterValid() throws Exception {
 
-		UserVM validUser = UserVM.builder().login("pam").password("1234567").email("pam@email.com")
-				.imageUrl("http://www.logo.com").langKey("en").name("PM Pam")
-				.accountId("8a8081966337e912016337e93d850001").build();
+		UserVM validUser = UserVM.builder()
+				.login("pam")
+				.password("1234567")
+				.email("pam@email.com")
+				.imageUrl("http://www.logo.com")
+				.langKey("en")
+				.name("PM Pam")
+				.accountId("8a8081966337e912016337e93d850001")
+				.build();
 
 		String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(validUser);
 
 		assertThat(userRepository.findOneByLogin("pam").isPresent()).isFalse();
 
-		restMvcAuthenticated.perform(post("/api/register").contentType(TestUtil.APPLICATION_JSON_UTF8)
-				.content(TestUtil.convertObjectToJsonBytes(validUser))).andDo(print()).andExpect(status().isCreated());
+		restMvcAuthenticated
+					.perform(post("/api/register")
+					.contentType(TestUtil.APPLICATION_JSON_UTF8)
+					.content(TestUtil.convertObjectToJsonBytes(validUser)))
+					.andDo(print())
+					.andExpect(status()
+					.isCreated());
 
 		assertThat(userRepository.findOneWithAccountsByLogin("pam").isPresent()).isTrue();
 		User user = userRepository.findOneWithAccountsByLogin("pam").get();

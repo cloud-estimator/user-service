@@ -14,7 +14,6 @@ import cloud.estimator.user.repository.AccountRepository;
 import cloud.estimator.user.repository.AuthorityRepository;
 import cloud.estimator.user.repository.UserRepository;
 import cloud.estimator.user.security.AuthoritiesConstants;
-import cloud.estimator.user.security.SecurityUtils;
 import cloud.estimator.user.service.util.RandomUtil;
 import cloud.estimator.user.web.rest.vm.UserVM;
 import lombok.AllArgsConstructor;
@@ -38,11 +37,14 @@ public class UserService {
 		return userRepository.findOneByLogin(login);
 	}
 
+	/**
+	 * @param userVM
+	 * @return
+	 */
 	public User registerUser(UserVM userVM) {
 
 		User newUser = User.builder()
 				.activated(false)
-				.createdBy(AuthoritiesConstants.ANONYMOUS)
 				.login(userVM.getLogin())
 				.password(userVM.getPassword())
 				.name(userVM.getName())
@@ -52,16 +54,13 @@ public class UserService {
 				// new user is not active
 				.activated(false)
 				// new user gets registration key
-				.activationKey(RandomUtil.generateActivationKey()).build();
+				.activationKey(RandomUtil.generateActivationKey())
+				.build();
 
 		userRepository.save(newUser);
 
 		Account account = accountRepository.getOne(userVM.getAccountId());
 		Authority authority = authorityRepository.getOne(AuthoritiesConstants.USER);
-
-		SecurityUtils.getCurrentUserJWT();
-		SecurityUtils.getCurrentUserLogin();
-		SecurityUtils.isAuthenticated();
 
 		account.addUser(newUser, authority);
 
@@ -69,6 +68,9 @@ public class UserService {
 		return newUser;
 	}
 
+	/**
+	 * @param login
+	 */
 	public void deleteUser(String login) {
 		userRepository.findOneByLogin(login).ifPresent(user -> {
 			userRepository.delete(user);

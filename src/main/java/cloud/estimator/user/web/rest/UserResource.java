@@ -1,6 +1,8 @@
 package cloud.estimator.user.web.rest;
 
 import lombok.AllArgsConstructor;
+
+import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import cloud.estimator.user.config.Constants;
+import cloud.estimator.user.domain.User;
+import cloud.estimator.user.repository.UserRepository;
 import cloud.estimator.user.security.AuthoritiesConstants;
 import cloud.estimator.user.security.SecurityUtils;
 import cloud.estimator.user.service.UserService;
@@ -55,22 +59,22 @@ public class UserResource {
 	private final Logger log = LoggerFactory.getLogger(UserResource.class);
 
 	private final UserService userService;
-	
+	private final UserRepository userRepo;
 
 	@SuppressWarnings("unused")
 	@GetMapping("/users/{accountId}")
 	@PreAuthorize("hasAuthority(#accountId + ':" + AuthoritiesConstants.ADMIN + "')")
-	public ResponseEntity<Void> invite3(@PathVariable String accountId) {
+	public ResponseEntity<List<User>> getAllUsersForAccount(@PathVariable String accountId) {
 		log.debug("REST request to get Register : {}", "test");
 		Optional<String> jwt = SecurityUtils.getCurrentUserJWT();
 		Optional<String> login = SecurityUtils.getCurrentUserLogin();
 		boolean isA = SecurityUtils.isAuthenticated();
-		boolean isR = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
-		return ResponseEntity.ok().build();
+		boolean isR = SecurityUtils.isCurrentUserInRole(accountId + ":" + AuthoritiesConstants.ADMIN);
+		List<User> users = userRepo.findAllByAccountsAccountIdEquals(accountId);
+		return ResponseEntity.ok(users);
 
 	}
 
-	
 	/**
 	 * DELETE /users/:login : delete the "login" User.
 	 *

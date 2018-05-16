@@ -1,6 +1,7 @@
 package cloud.estimator.user.repository;
 
 import cloud.estimator.user.domain.User;
+
 // import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,13 +18,12 @@ import java.time.Instant;
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
 
-	String USERS_BY_LOGIN_CACHE = "usersByLogin";
-
-	String USERS_BY_EMAIL_CACHE = "usersByEmail";
 
 	Optional<User> findOneByActivationKey(String activationKey);
 
 	List<User> findAllByActivatedIsFalseAndCreatedDateBefore(Instant dateTime);
+	
+	List<User> findAllByAccountsAccountIdEquals(String id);
 
 	Optional<User> findOneByResetKey(String resetKey);
 
